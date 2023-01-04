@@ -27,19 +27,25 @@ describe AlbumRepository do
  
   it "gets a single album" do
     repo = AlbumRepository.new
-    expect(repo.find(1)).to eq [{"id"=>"1", "title"=>"Greatest Hits 1", "release_year"=>"1980", "artist_id"=>"1"}]
+    album = repo.find(1)
+    expect(album.title).to eq ("Greatest Hits 1")
+    expect(album.release_year).to eq ("1980")
   end
 
   it "creates an album entry" do
     repo = AlbumRepository.new
     repo.create('Greatest Hits 3', '1992', '3')
-    expect(repo.find(3)).to eq [{"id"=>"3", "title"=>"Greatest Hits 3", "release_year"=>"1992", "artist_id"=>"3"}]
+    album = repo.find(3)
+    expect(album.title).to eq ("Greatest Hits 3")
+    expect(album.release_year).to eq ("1992")
   end
 
   it "updates an album entry" do
     repo = AlbumRepository.new
     repo.update('release_year', '1992', '2')
-    expect(repo.find(2)).to eq [{"id"=>"2", "title"=>"Greatest Hits 2", "release_year"=>"1992", "artist_id"=>"2"}]
+    album = repo.find(2)
+    expect(album.title).to eq ("Greatest Hits 2")
+    expect(album.release_year).to eq ("1992")
   end
 
   it "deletes an album entry" do
@@ -47,6 +53,8 @@ describe AlbumRepository do
     repo.delete('2')
     albums = repo.all
     expect(albums.length).to eq 1
-    expect(repo.find(1)).to eq [{"id"=>"1", "title"=>"Greatest Hits 1", "release_year"=>"1980", "artist_id"=>"1"}]
+    album = repo.find(1)
+    expect(album.title).to eq ("Greatest Hits 1")
+    expect(album.release_year).to eq ("1980")
   end
 end

@@ -20,9 +20,16 @@ class AlbumRepository
   end
 
   def find(album_id)
-    sql = "SELECT id, title, release_year, artist_id FROM albums WHERE id = #{album_id};"
-    result_set = DatabaseConnection.exec_params(sql, [])
-    return result_set.to_a
+    sql = "SELECT id, title, release_year, artist_id FROM albums WHERE id = $1;"
+    params = [album_id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+    record = result_set[0]
+
+    album = Album.new
+    album.id = record['id']
+    album.title = record['title']
+    album.release_year = record['release_year']
+    return album
   end
 
   def create(album_title, release_year, artist_id)
