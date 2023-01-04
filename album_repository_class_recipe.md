@@ -133,23 +133,23 @@ class AlbumRepository
 
   # Add more methods below for each operation you'd like to implement.
 
-  def create(album_title, release_year, artist_id)
+  def create(album)
     # Executes the SQL query:
-    #   INSERT INTO album (title, release_year, artist_id) VALUES('Greatest Hits 3', '1991', '3');
+    # INSERT INTO album (title, release_year, artist_id) VALUES($1, $2);
 
     # Returns nothing
   end
 
-  def update(column_name, change_to, album_id)
+  def update(album)
     # Executes the SQL query:
-    # UPDATE albums SET release_year = '2000' WHERE id = '1';
+    # UPDATE albums SET name = $1, release_year = $2, artist_id = $3 WHERE id = $4;
 
     # Returns nothing
   end
 
   def delete(album_id)
     # Executes the SQL query:
-    # DELETE FROM albums WHERE id = '$1';
+    # DELETE FROM albums WHERE id = $1;
 
     # Returns nothing
   end
@@ -201,26 +201,36 @@ album.artist_id # => 1
 
 repo = AlbumRepository.new
 
-new_album = repo.create('Greatest Hits 3', '1992', '3')
-album = repo.find(3)
+album = Album.new
+album.title = 'Greatest Hits 3'
+album.release_year = '1992'
+album.artist_id = '3'
 
-album.id # => 3  
-album.title # =>  'Greatest Hits 3'
-album.release_year # =>  '1992'
-album.artist_id # => 3
+repo.create(artist) # =>
+
+albums = repo.all
+last_album = albums.last
+last_album.title # => 'Greatest Hits 3'
+last_album.release_year # => '1992'
 
 # 4 
 # Update an album
 
 repo = AlbumRepository.new
 
-update_album = repo.update('release_year', '1992', '2')
 album = repo.find(2)
+album.title = 'Greatest Hits 2'
+album.release_year = '1992'
+album.artist_id = '2'
 
-album.id # =>  2
-album.title # =>  'Greatest Hits 2'
-album.release_year # =>  '1992'
-album.artist_id # => 2
+repo.update(album)
+
+updated_album = repo.find(2)
+
+updated_album.id # =>  2
+updated_album.title # =>  'Greatest Hits 2'
+updated_album.release_year # =>  '1992'
+updated_album.artist_id # => 2
 
 # 5
 # Delete an album

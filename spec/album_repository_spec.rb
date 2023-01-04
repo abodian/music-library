@@ -34,18 +34,34 @@ describe AlbumRepository do
 
   it "creates an album entry" do
     repo = AlbumRepository.new
-    repo.create('Greatest Hits 3', '1992', '3')
-    album = repo.find(3)
-    expect(album.title).to eq ("Greatest Hits 3")
-    expect(album.release_year).to eq ("1992")
+    album = Album.new
+    album.title = 'Greatest Hits 3'
+    album.release_year = '1992'
+    album.artist_id = '3'
+
+    repo.create(album)
+
+    albums = repo.all
+    last_album = albums.last
+
+    expect(last_album.title).to eq "Greatest Hits 3"
+    expect(last_album.release_year).to eq "1992"
   end
 
   it "updates an album entry" do
     repo = AlbumRepository.new
-    repo.update('release_year', '1992', '2')
+
     album = repo.find(2)
-    expect(album.title).to eq ("Greatest Hits 2")
-    expect(album.release_year).to eq ("1992")
+    album.release_year = '1992'
+
+    repo.update(album)
+
+    updated_album = repo.find(2)
+
+    expect(updated_album.id).to eq "2"
+    expect(updated_album.title).to eq "Greatest Hits 2"
+    expect(updated_album.release_year).to eq "1992"
+    expect(updated_album.artist_id).to eq "2"
   end
 
   it "deletes an album entry" do

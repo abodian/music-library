@@ -29,22 +29,30 @@ class AlbumRepository
     album.id = record['id']
     album.title = record['title']
     album.release_year = record['release_year']
+    album.artist_id = record['artist_id']
     return album
   end
 
-  def create(album_title, release_year, artist_id)
-    sql = "INSERT INTO albums (title, release_year, artist_id) VALUES('#{album_title}', '#{release_year}', '#{artist_id}');"
-    DatabaseConnection.exec_params(sql, [])
+  def create(album)
+    sql = "INSERT INTO albums (title, release_year, artist_id) VALUES($1, $2, $3);"
+    sql_params = [album.title, album.release_year, album.artist_id]
+    DatabaseConnection.exec_params(sql, sql_params)
+
+    return nil
   end
 
-  def update(column_name, change_to, album_id)
-    sql = "UPDATE albums SET #{column_name} = #{change_to} WHERE id = #{album_id}"
-    DatabaseConnection.exec_params(sql, [])
+  def update(album)
+    sql = "UPDATE albums SET title = $1, release_year = $2, artist_id = $3 WHERE id = $4;"
+    sql_params = [album.title, album.release_year, album.artist_id, album.id]
+    DatabaseConnection.exec_params(sql, sql_params)
+
+    return nil
   end
 
   def delete(album_id)
-    sql = "DELETE FROM albums WHERE id = #{album_id}"
-    DatabaseConnection.exec_params(sql, [])
+    sql = "DELETE FROM albums WHERE id = $1"
+    sql_parameters = [album_id]
+    DatabaseConnection.exec_params(sql, sql_parameters)
   end
 end
 
