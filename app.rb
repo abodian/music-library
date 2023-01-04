@@ -11,7 +11,8 @@ album_repository.all.each do |artist|
   p artist.title
 end
 
-single_album = album_repository.find(1)
-single_album.each do |album|
-  p album['title']
-end
+single_album = album_repository.find(3)
+
+puts single_album.id
+puts single_album.title
+puts single_album.release_year
