@@ -1,1 +1,0 @@
-p single_album[0]['title']

@@ -40,3 +40,4 @@ class AlbumRepository
     DatabaseConnection.exec_params(sql, [])
   end
 end
+
