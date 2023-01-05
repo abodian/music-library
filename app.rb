@@ -25,7 +25,33 @@ class Application
   end
 
   def run
-    @io.puts "welcome to the music library manager!"
+    @io.puts "Welcome to the music library manager!"
+    @io.puts "\nWhat would you like to do?\n 1 - List all albums\n 2 - List all artists"
+    @io.puts "\nEnter your choice: "
+    user_choice = @io.gets.chomp
+
+    if user_choice == '1'
+      @io.puts "Here is the list of albums:"
+      album_repository = AlbumRepository.new
+      counter = 1
+      album_repository.all.each do |album|
+        puts "* #{counter} - #{album.title}"
+        counter += 1
+      end
+    else
+      @io.puts "Here is the list of artists:"
+      artist_repository = ArtistRepository.new
+      artist_names = []
+      
+      counter = 1
+      artist_repository.all.each do |artist|
+        artist_names << artist.name
+      end
+      artist_names.uniq.each do |name|
+        puts "* #{counter} - #{name}"
+        counter += 1
+      end
+    end
   end
 end
 
