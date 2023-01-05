@@ -1,4 +1,3 @@
-single_album = album_repository.find(1)
-single_album.each do |album|
-  p album['title']
+album_repository.all.each do |artist|
+  p artist.title
 end
